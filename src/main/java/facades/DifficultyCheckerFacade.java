@@ -42,12 +42,13 @@ public class DifficultyCheckerFacade {
     public DifficultyCheckerDTO createDifficultyChecker(DifficultyCheckerDTO difficultyCheckerDTO) {
         EntityManager em = emf.createEntityManager();
         DifficultyChecker difficultyChecker = null;
+
+        TypedQuery<DifficultyChecker> query = em.createQuery("SELECT d FROM DifficultyChecker d WHERE d.countryName = :countryName", DifficultyChecker.class);
+        query.setParameter("countryName", difficultyCheckerDTO.getCountryName());
         try {
-            TypedQuery<DifficultyChecker> query = em.createQuery("SELECT d FROM DifficultyChecker d WHERE d.countryName = :countryName", DifficultyChecker.class);
-            query.setParameter("countryName", difficultyCheckerDTO.getCountryName());
             difficultyChecker = query.getSingleResult();
-        }finally {}
-        if (difficultyChecker == null) {
+        } catch (Exception e) {
+
             difficultyChecker = new DifficultyChecker(difficultyCheckerDTO.getCountryName(), difficultyCheckerDTO.getFlagURL(), 0);
             try {
                 em.getTransaction().begin();
@@ -57,6 +58,7 @@ public class DifficultyCheckerFacade {
                 em.close();
             }
         }
+
         return new DifficultyCheckerDTO(difficultyChecker);
     }
 
@@ -90,8 +92,6 @@ public class DifficultyCheckerFacade {
             em.close();
         }
         return new DifficultyCheckerDTO(df);
-
-
 
 
     }

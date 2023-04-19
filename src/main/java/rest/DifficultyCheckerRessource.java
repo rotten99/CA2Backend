@@ -2,10 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dtos.ChuckDTO;
-import dtos.DadDTO;
-import dtos.DifficultyCheckerDTO;
-import dtos.MyJokeDTO;
+import dtos.*;
 import facades.DifficultyCheckerFacade;
 import facades.Fetch;
 import utils.EMF_Creator;
@@ -32,16 +29,19 @@ public class DifficultyCheckerRessource {
     @Path("create")
     @POST
     @Produces({MediaType.APPLICATION_JSON})
-    public Response createDifficultyChecker(DifficultyCheckerDTO dto) throws Exception {
-        return Response.ok().entity(GSON.toJson(FACADE.createDifficultyChecker(dto))).build();
+    public Response createDifficultyChecker(String input) throws Exception {
+        DifficultyCheckerDTO df = GSON.fromJson(input, DifficultyCheckerDTO.class);
+        DifficultyCheckerDTO dfNew = FACADE.createDifficultyChecker(df);
+        return Response.ok().entity(dfNew).build();
     }
 
     //This endpoint edit a Difficulty checker
     @Path("edit")
     @PUT
     @Produces({MediaType.APPLICATION_JSON})
-    public Response editDifficultyChecker(DifficultyCheckerDTO dto) throws Exception {
-        return Response.ok().entity(GSON.toJson(FACADE.editDifficultyChecker(dto))).build();
+    public Response editDifficultyChecker(String input) throws Exception {
+        DifficultyCheckerDTO dto = GSON.fromJson(input, DifficultyCheckerDTO.class);
+        return Response.ok().entity(FACADE.editDifficultyChecker(dto)).build();
     }
 
 }

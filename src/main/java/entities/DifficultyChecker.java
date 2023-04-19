@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "difficulty_checker")
 @NamedQueries({
         @NamedQuery(name = "DifficultyChecker.findById", query = "select d from DifficultyChecker d where d.id = :id"),
+        @NamedQuery(name = "DifficultyChecker.deleteAllRows", query = "delete from DifficultyChecker")
 })
 public class DifficultyChecker {
     @Id

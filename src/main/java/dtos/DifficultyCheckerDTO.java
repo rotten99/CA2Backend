@@ -16,6 +16,8 @@ public class DifficultyCheckerDTO {
         this.timesNotAnswered = dc.getTimesNotAnswered();
     }
 
+
+
     public Long getId() {
         return id;
     }
