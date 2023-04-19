@@ -10,13 +10,23 @@ public class UserDTO {
 
     private String userName;
     private String userPass;
+    private Integer highscore;
     private List<RoleDTO> roleList = new ArrayList<>();
 
     public UserDTO(User user){
         this.userName = user.getUserName();
+        this.highscore = user.getHighscore();
         this.userPass = user.getUserPass();
         this.roleList = user.getRoleList().stream().map(r -> new RoleDTO(r)).collect(Collectors.toList());
 
+    }
+
+    public Integer getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(int highscore) {
+        this.highscore = highscore;
     }
 
     public static List<UserDTO> getDtos(List<User> persons) {

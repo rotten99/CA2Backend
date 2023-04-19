@@ -90,6 +90,15 @@ public class UserResource {
     }
 
 
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("edit")
+    public Response editUser(String input) throws NotFoundException {
+        UserDTO udto = GSON.fromJson(input, UserDTO.class);
+        UserDTO udtoNew = FACADE.update(udto);
+        return Response.ok().entity(udtoNew).build();
+    }
 
 
 

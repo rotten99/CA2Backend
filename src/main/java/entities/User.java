@@ -31,6 +31,17 @@ public class User implements Serializable {
   @ManyToMany
   private List<Role> roleList = new ArrayList<>();
 
+  @Column(name = "highscore")
+  private Integer highscore;
+
+  public Integer getHighscore() {
+    return highscore;
+  }
+
+  public void setHighscore(Integer highscore) {
+    this.highscore = highscore;
+  }
+
   public List<String> getRolesAsStrings() {
     if (roleList.isEmpty()) {
       return null;
@@ -53,10 +64,11 @@ public class User implements Serializable {
     this.userName = userName;
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
   }
-  public User(String userName, String userPass, List<Role> roleList) {
+  public User(String userName, String userPass, List<Role> roleList, Integer highscore) {
     this.userName = userName;
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
     this.roleList = roleList;
+    this.highscore = highscore;
   }
 
 

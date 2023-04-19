@@ -1,7 +1,7 @@
 GET http://localhost:8080/devops_starter_war_exploded/api/info
 
 ###
-POST http://localhost:8080/devops_starter_war_exploded/api/login
+POST http://localhost:8080/3semstartcode/api/login
 Content-Type: application/json
 
 {

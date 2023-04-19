@@ -54,7 +54,7 @@ public class UserFacade {
 
     public UserDTO create(UserDTO udto){
         List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName()) ).collect(Collectors.toList());
-        User u = new User(udto.getUserName(), udto.getUserPass(),roleList);
+        User u = new User(udto.getUserName(), udto.getUserPass(),roleList, udto.getHighscore());
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -84,6 +84,20 @@ public class UserFacade {
         TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
         List<User> persons = query.getResultList();
         return UserDTO.getDtos(persons);
+    }
+
+    //this method updates a user
+    public UserDTO update(UserDTO udto){
+        EntityManager em = getEntityManager();
+        User u = em.find(User.class, udto.getUserName());
+        try {
+            em.getTransaction().begin();
+            u.setHighscore(udto.getHighscore());
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+        return new UserDTO(u);
     }
 
 

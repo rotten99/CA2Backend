@@ -77,8 +77,8 @@ public class UserResourceTest {
         Role aRole = new Role("admin");
         userList.add(uRole);
         adminList.add(aRole);
-        u1 = new User("user", "123",userList);
-        u2 = new User("admin", "123",adminList);
+        u1 = new User("user", "123",userList,13);
+        u2 = new User("admin", "123",adminList,14);
         try {
             em.getTransaction().begin();
             em.createNamedQuery("User.deleteAllRows").executeUpdate();
@@ -110,8 +110,7 @@ public class UserResourceTest {
     public void testCreateUserEndpoint() {
 
         List<Role> userList = new ArrayList<>();
-        User u = new User("johndoe", "password",userList);
-        System.out.println("*****************"+u+"*****************"+u.getRoleList());
+        User u = new User("johndoe", "password",userList,12);
         UserDTO userDTO = new UserDTO(u);
 
         String requestBody = new Gson().toJson(userDTO);
@@ -138,6 +137,23 @@ public class UserResourceTest {
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("userName", equalTo("user"));
+    }
+
+    //This tests the edit user method in the UserResource class
+    @Test
+    public void updateUserHighscoreTest() {
+        System.out.println("*****************"+u1.getHighscore()+"*****************");
+        u1.setHighscore(100);
+        String userJson = new Gson().toJson(new UserDTO(u1));
+        given()
+                .contentType(ContentType.JSON)
+                .body(userJson)
+                .when()
+                .put("/info/edit/")
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("highscore", equalTo(100));
     }
 
 }
