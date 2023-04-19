@@ -1,6 +1,7 @@
 package facades;
 
 import dtos.UserDTO;
+import entities.Role;
 import entities.User;
 import security.errorhandling.AuthenticationException;
 
@@ -8,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author lam@cphbusiness.dk
@@ -50,8 +52,9 @@ public class UserFacade {
         return user;
     }
 
-    public UserDTO create(User udto){
-        User u = new User(udto.getUserName(),udto.getUserPass(),udto.getRoleList());
+    public UserDTO create(UserDTO udto){
+        List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName()) ).collect(Collectors.toList());
+        User u = new User(udto.getUserName(), udto.getUserPass(),roleList);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();

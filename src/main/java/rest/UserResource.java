@@ -76,9 +76,7 @@ public class UserResource {
     @Path("create")
     public Response createUser(String input){
         UserDTO udto = GSON.fromJson(input, UserDTO.class);
-        List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName()) ).collect(Collectors.toList());
-        User user = new User(udto.getUserName(), udto.getUserPass(),roleList);
-        UserDTO udtoNew = FACADE.create(user);
+        UserDTO udtoNew = FACADE.create(udto);
         return Response.ok().entity(udtoNew).build();
     }
 
