@@ -4,6 +4,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "difficulty_checker")
+@NamedQueries({
+        @NamedQuery(name = "DifficultyChecker.findById", query = "select d from DifficultyChecker d where d.id = :id"),
+})
 public class DifficultyChecker {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

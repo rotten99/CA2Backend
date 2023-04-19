@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
         resources.add(JokesResource.class);
         resources.add(BugReportRessource.class);
         resources.add(CountryRessource.class);
+        resources.add(DifficultyCheckerRessource.class);
         resources.add(security.JWTAuthenticationFilter.class);
         resources.add(security.LoginEndpoint.class);
         resources.add(security.RolesAllowedFilter.class);
