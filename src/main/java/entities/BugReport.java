@@ -6,7 +6,8 @@ import javax.persistence.*;
 @Table(name = "bug_report")
 @NamedQueries({
         @NamedQuery(name = "BugReport.findById", query = "select b from BugReport b where b.id = :id"),
-        @NamedQuery(name = "BugReport.findAll", query = "select b from BugReport b")
+        @NamedQuery(name = "BugReport.findAll", query = "select b from BugReport b"),
+        @NamedQuery(name = "BugReport.deleteAllRows", query = "delete from BugReport")
 })
 public class BugReport {
     @Id
