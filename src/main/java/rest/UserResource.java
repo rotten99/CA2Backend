@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
 
 @Path("info")
 public class UserResource {
-    
+
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final UserFacade FACADE =  UserFacade.getUserFacade(EMF);
+    private static final UserFacade FACADE = UserFacade.getUserFacade(EMF);
 
     @Context
     private UriInfo context;
@@ -44,7 +44,7 @@ public class UserResource {
 
         EntityManager em = EMF.createEntityManager();
         try {
-            TypedQuery<User> query = em.createQuery ("select u from User u", User.class);
+            TypedQuery<User> query = em.createQuery("select u from User u", User.class);
             List<User> users = query.getResultList();
             return "[" + users.size() + "]";
         } finally {
@@ -74,7 +74,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("create")
-    public Response createUser(String input){
+    public Response createUser(String input) {
         UserDTO udto = GSON.fromJson(input, UserDTO.class);
         UserDTO udtoNew = FACADE.create(udto);
         return Response.ok().entity(udtoNew).build();
@@ -84,7 +84,7 @@ public class UserResource {
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("delete/{username}")
-    public Response deleteUser(@PathParam("username") String username){
+    public Response deleteUser(@PathParam("username") String username) {
         UserDTO udto = FACADE.delete(username);
         return Response.ok().entity(udto).build();
     }
@@ -101,7 +101,12 @@ public class UserResource {
     }
 
 
-
-
-
+    //This endpoint gets a users highscore
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("highscore/{username}")
+    public Response getHighscore(@PathParam("username") String username) throws NotFoundException {
+        UserDTO udto = FACADE.getHighscore(username);
+        return Response.ok().entity(udto).build();
+    }
 }

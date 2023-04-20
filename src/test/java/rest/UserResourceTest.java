@@ -142,7 +142,6 @@ public class UserResourceTest {
     //This tests the edit user method in the UserResource class
     @Test
     public void updateUserHighscoreTest() {
-        System.out.println("*****************"+u1.getHighscore()+"*****************");
         u1.setHighscore(100);
         String userJson = new Gson().toJson(new UserDTO(u1));
         given()
@@ -154,6 +153,19 @@ public class UserResourceTest {
                 .statusCode(200)
                 .contentType(ContentType.JSON)
                 .body("highscore", equalTo(100));
+    }
+
+    //This tests the get highscore method in the UserResource class
+    @Test
+    public void getHighscoreTest() {
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/info/highscore/" + u1.getUserName())
+                .then()
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+                .body("highscore", equalTo(13));
     }
 
 }

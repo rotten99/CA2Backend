@@ -4,6 +4,7 @@ import dtos.CountryDTO;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class CountryFacade {
@@ -39,15 +40,21 @@ public class CountryFacade {
         String apiUrl = "https://restcountries.com/v3.1/all?fields=name,flags";
         String json = Fetch.fetchData(apiUrl);
         String[] jsonArr = json.split("}}}},");
+        ArrayList<Integer> usedNumbers = new ArrayList<>();
 
 
         for (int i = 0; i < answers.length; i++) {
             int random = generateRandomNumber(jsonArr.length);
+            usedNumbers.add(random);
+            if(usedNumbers.contains(random)){
+                random = generateRandomNumber(jsonArr.length);
+            }
             String countryName = getCountryName(jsonArr[random].split("\"},\"")[1]);
             String flagURL = getFlagURL(jsonArr[random].split("\"},\"")[0]);
             answers[i] = new CountryDTO(countryName, flagURL, false);
         }
 
+        usedNumbers.clear();
         // Set one of the answers to be the correct answer
         int correctAnswer = generateRandomNumber(answers.length);
         answers[correctAnswer].setAnswer(true);

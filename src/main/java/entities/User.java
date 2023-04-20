@@ -55,14 +55,16 @@ public class User implements Serializable {
 
   public User() {}
 
+
   //TODO Change when password is hashed
    public boolean verifyPassword(String pw){
     return BCrypt.checkpw(pw, userPass);
     }
 
-  public User(String userName, String userPass) {
+  public User(String userName, String userPass, Integer highscore) {
     this.userName = userName;
     this.userPass = BCrypt.hashpw(userPass, BCrypt.gensalt());
+    this.highscore = highscore;
   }
   public User(String userName, String userPass, List<Role> roleList, Integer highscore) {
     this.userName = userName;

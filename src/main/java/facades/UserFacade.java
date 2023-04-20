@@ -54,7 +54,7 @@ public class UserFacade {
 
     public UserDTO create(UserDTO udto){
         List<Role> roleList = udto.getRoleList().stream().map(r -> new Role(r.getRoleName()) ).collect(Collectors.toList());
-        User u = new User(udto.getUserName(), udto.getUserPass(),roleList, udto.getHighscore());
+        User u = new User(udto.getUserName(), udto.getUserPass(),roleList, 0);
         EntityManager em = getEntityManager();
         try {
             em.getTransaction().begin();
@@ -101,7 +101,12 @@ public class UserFacade {
     }
 
 
-
+    //this method returns a user's highscore and returns it as a UserDTO
+    public UserDTO getHighscore(String username){
+        EntityManager em = emf.createEntityManager();
+        User u = em.find(User.class, username);
+        return new UserDTO(u);
+    }
 
 
 
