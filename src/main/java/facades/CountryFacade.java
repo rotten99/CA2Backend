@@ -45,10 +45,10 @@ public class CountryFacade {
 
         for (int i = 0; i < answers.length; i++) {
             int random = generateRandomNumber(jsonArr.length);
-            usedNumbers.add(random);
-            if(usedNumbers.contains(random)){
+            while (usedNumbers.contains(random)){
                 random = generateRandomNumber(jsonArr.length);
             }
+            usedNumbers.add(random);
             String countryName = getCountryName(jsonArr[random].split("\"},\"")[1]);
             String flagURL = getFlagURL(jsonArr[random].split("\"},\"")[0]);
             answers[i] = new CountryDTO(countryName, flagURL, false);
@@ -85,6 +85,7 @@ public class CountryFacade {
         String name = countryArr[2].replace("\"", "");
         return name;
     }
+
 
 
 

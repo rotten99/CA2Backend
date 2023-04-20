@@ -24,7 +24,7 @@ public class BugReportRessource {
 
     private static final EntityManagerFactory EMF = EMF_Creator.createEntityManagerFactory();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    private static final BugReportFacade FACADE =  BugReportFacade.getBugReportFacade(EMF);
+    private static final BugReportFacade FACADE = BugReportFacade.getBugReportFacade(EMF);
 
     @Context
     private UriInfo context;
@@ -37,7 +37,7 @@ public class BugReportRessource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("create")
-    public Response createBugreport(String input){
+    public Response createBugreport(String input) {
         BugReportDTO bugReportDTO = GSON.fromJson(input, BugReportDTO.class);
         BugReportDTO bugReportDTONew = FACADE.createBugReport(bugReportDTO);
         return Response.ok().entity(bugReportDTONew).build();
@@ -47,8 +47,13 @@ public class BugReportRessource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("all")
-    public Response getAllBugreports(){
+    public Response getAllBugreports() {
+
         List<BugReportDTO> bugReportDTOList = FACADE.getAllBugReports();
+        for (BugReportDTO bugReportDTO : bugReportDTOList) {
+            System.out.println(bugReportDTO.getIsFixed());
+        }
+
         return Response.ok().entity(bugReportDTOList).build();
     }
 
@@ -62,7 +67,6 @@ public class BugReportRessource {
         BugReportDTO bugReportDTONew = FACADE.editBugReport(bugReportDTO);
         return Response.ok().entity(bugReportDTONew).build();
     }
-
 
 
 }

@@ -88,8 +88,11 @@ public class UserFacade {
 
     //this method updates a user
     public UserDTO update(UserDTO udto){
+        System.out.println(udto.getUserName()+"***************************");
         EntityManager em = getEntityManager();
-        User u = em.find(User.class, udto.getUserName());
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class);
+        query.setParameter("username", udto.getUserName());
+        User u = query.getSingleResult();
         try {
             em.getTransaction().begin();
             u.setHighscore(udto.getHighscore());
@@ -104,7 +107,9 @@ public class UserFacade {
     //this method returns a user's highscore and returns it as a UserDTO
     public UserDTO getHighscore(String username){
         EntityManager em = emf.createEntityManager();
-        User u = em.find(User.class, username);
+        TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.userName = :username", User.class);
+        query.setParameter("username", username);
+        User u = query.getSingleResult();
         return new UserDTO(u);
     }
 

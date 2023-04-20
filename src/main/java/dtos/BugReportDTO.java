@@ -16,6 +16,11 @@ public class BugReportDTO {
         this.isFixed = bugReport.getIsFixed();
     }
 
+    public BugReportDTO(String description, Boolean isFixed) {
+        this.description = description;
+        this.isFixed = isFixed;
+    }
+
     public Long getId() {
         return id;
     }
